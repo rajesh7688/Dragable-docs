@@ -6,6 +6,7 @@ import InputBox from "../ui/InputBox";
 import Button from "../ui/Button";
 import { customCss } from "../../assets/DataObj/css";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 const SignupForm = ({ reference }) => {
   let regex =
@@ -16,7 +17,7 @@ const SignupForm = ({ reference }) => {
       .nonempty()
       .min(2, { message: "Username must be at least 2 characters." }),
     email: z.string().nonempty(),
-    password: z.string().regex(regex),
+    password: z.string(), //.regex(regex),
   });
 
   const {
@@ -25,8 +26,16 @@ const SignupForm = ({ reference }) => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(formSchema) });
 
-  const onSubmit = (data) => {
+  const handleRegister = async (data) => {
+    try {
+      const res = await axios.post("http://localhost:3001/register", data);
+      console.log(res, "res");
+    } catch (error) {}
+  };
+
+  const onSubmit = async (data) => {
     console.log(data);
+    await handleRegister(data);
   };
 
   return (
@@ -61,7 +70,7 @@ const SignupForm = ({ reference }) => {
           <InputBox
             form={register("password")}
             label={"Enter Here"}
-            type={"password"}
+            // type={"password"}
           />
         </div>
         <div>
