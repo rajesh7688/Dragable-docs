@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import Card from "./Card";
 
-import { fileIcon, downlodIcon } from "../assets/icons/index";
-import { dataObj } from "../assets/DataObj/text";
-import { customCss } from "../assets/DataObj/css";
+import { fileIcon, downlodIcon } from "../../assets/icons/index";
+import { dataObj } from "../../assets/DataObj/text";
+import { customCss } from "../../assets/DataObj/css";
 
 const Foreground = () => {
   const ref = useRef(null);

@@ -1,6 +1,6 @@
 import React from "react";
-import Background from "./Background";
-import Foreground from "./Foreground";
+import Background from "../components/homeComponents/Background";
+import Foreground from "../components/homeComponents/Foreground";
 
 const Home = () => {
   return (
