@@ -58,7 +58,7 @@ const LoginForm = ({ reference }) => {
           />
         </div>
         <div>
-          <Button type={"submit"} text={"Login"} />
+          <Button type={"submit"} text={"Login"} navigation={"/home"} />
         </div>
         <div>
           <p>
