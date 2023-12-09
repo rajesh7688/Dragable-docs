@@ -28,7 +28,7 @@ const SignupForm = ({ reference }) => {
 
   const handleRegister = async (data) => {
     try {
-      const res = await axios.post("http://localhost:3001/register", data);
+      const res = await axios.post("http://localhost:3003/register", data);
       console.log(res, "res");
     } catch (error) {}
   };
