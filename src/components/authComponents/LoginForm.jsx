@@ -7,6 +7,7 @@ import Button from "../ui/Button";
 import { customCss } from "../../assets/DataObj/css";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { apiCallNew } from "../../services/apiCallNew";
 
 const LoginForm = ({ reference }) => {
   const navigate = useNavigate();
@@ -26,8 +27,15 @@ const LoginForm = ({ reference }) => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(formSchema) });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
+    const endpoint = "login";
+    const res = await apiCallNew(endpoint, "post", data);
+    console.log(res);
+
+    if (res.data.status === "success") {
+      navigate("/home");
+    }
   };
 
   return (
@@ -58,7 +66,7 @@ const LoginForm = ({ reference }) => {
           />
         </div>
         <div>
-          <Button type={"submit"} text={"Login"} navigation={"/home"} />
+          <Button type={"submit"} text={"Login"} />
         </div>
         <div>
           <p>

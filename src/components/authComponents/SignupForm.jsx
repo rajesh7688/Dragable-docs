@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import InputBox from "../ui/InputBox";
-import Button from "../ui/Button";
 import { customCss } from "../../assets/DataObj/css";
 import { motion } from "framer-motion";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { apiCallNew } from "../../services/apiCallNew";
+import { debounce } from "../../utils/debounce";
 
-const SignupForm = ({ reference }) => {
+import z from "zod";
+
+import InputBox from "../ui/InputBox";
+import Button from "../ui/Button";
+import UseApiCall from "../../services/UseApiCall";
+
+const SignupForm = ({ reference, endpoit }) => {
+  const navigate = useNavigate();
+  const [searchText, setSearchText] = useState(0);
+
   let regex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
   const formSchema = z.object({
@@ -17,7 +25,7 @@ const SignupForm = ({ reference }) => {
       .nonempty()
       .min(2, { message: "Username must be at least 2 characters." }),
     email: z.string().nonempty(),
-    password: z.string(), //.regex(regex),
+    password: z.string().regex(regex),
   });
 
   const {
@@ -26,17 +34,43 @@ const SignupForm = ({ reference }) => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(formSchema) });
 
-  const handleRegister = async (data) => {
-    try {
-      const res = await axios.post("http://localhost:3003/register", data);
-      console.log(res, "res");
-    } catch (error) {}
-  };
-
   const onSubmit = async (data) => {
     console.log(data);
-    await handleRegister(data);
+    const res = await apiCallNew(endpoit, "post", data);
+    console.log(res);
+    if (res.data.status === "success") {
+      navigate("/", {
+        state: {
+          msg: res.data.status,
+        },
+      });
+    } else {
+      console.log("something went wrong");
+    }
   };
+
+  console.log(searchText);
+
+  // useEffect(() => {
+  //   const checkUsername = async () => {
+  //     const obj = {
+  //       username: searchText,
+  //     };
+
+  //     const res = await apiCallNew("matchUser", "post", obj);
+  //     console.log(res, "shdjhsjd");
+  //   };
+
+  //   checkUsername();
+  // }, [searchText]);
+
+  const obj = {
+    username: searchText,
+  };
+
+  const { response } = UseApiCall("matchUser", "post", obj, searchText);
+
+  console.log(searchText, "sss");
 
   return (
     <motion.div
@@ -55,7 +89,16 @@ const SignupForm = ({ reference }) => {
             form={register("username")}
             label={"Enter Here"}
             type={"text"}
+            setSearchText={setSearchText}
           />
+          <span className="text-red-300">{errors?.password?.message}</span>
+          <span className="text-green-300">
+            {searchText === 0
+              ? ""
+              : response?.data?.length > 0
+              ? "Not Available"
+              : "Available"}
+          </span>
         </div>
         <div className="mt-4">
           <label htmlFor="username">Email</label>
@@ -70,8 +113,9 @@ const SignupForm = ({ reference }) => {
           <InputBox
             form={register("password")}
             label={"Enter Here"}
-            // type={"password"}
+            // type={"password"}d
           />
+          <span className="text-red-300">{errors?.password?.message}</span>
         </div>
         <div>
           <Button type={"submit"} text={"Signup"} />
