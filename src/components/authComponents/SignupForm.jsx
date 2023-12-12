@@ -68,7 +68,12 @@ const SignupForm = ({ reference, endpoit }) => {
     username: searchText,
   };
 
-  const { response } = UseApiCall("matchUser", "post", obj, searchText);
+  const { response } = UseApiCall(
+    "matchUser",
+    "post",
+    obj
+    // searchText === 0 ? "" : searchText
+  );
 
   console.log(searchText, "sss");
 

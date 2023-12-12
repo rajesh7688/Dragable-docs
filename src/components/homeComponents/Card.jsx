@@ -13,6 +13,7 @@ const Card = ({ className, data, refrence }) => {
   const handleSave = () => {
     console.log(text, "saved text");
   };
+
   return (
     <motion.div
       drag
@@ -20,7 +21,10 @@ const Card = ({ className, data, refrence }) => {
       whileDrag={{ scale: "1.2" }}
       className={className}
     >
-      <img src={data.iconFile} alt="" className="w-[10%] text-zinc-200" />
+      <div className="flex justify-between">
+        <img src={data.iconFile} alt="" className="w-[10%] text-zinc-200" />
+        <img src={data.eye} alt="" className="w-[10%] text-zinc-200" />
+      </div>
       <h2
         className="text-sm font-semibold mt-4"
         contentEditable="true"
@@ -48,7 +52,9 @@ const Card = ({ className, data, refrence }) => {
         </div>
         {data.tag.isOpen && (
           <div
-            className={`tag w-full py-5 bg-${data.tag.tagColor}-700 flex justify-center items-center`}
+            className={`tag w-full py-5 ${
+              data.id === 2 ? "bg-blue-300" : ""
+            } flex justify-center items-center`}
           >
             <h2 className="text-md ">{data.tag.tagTitle}</h2>
           </div>

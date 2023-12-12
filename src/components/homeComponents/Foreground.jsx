@@ -4,9 +4,11 @@ import Card from "./Card";
 import { fileIcon, downlodIcon } from "../../assets/icons/index";
 import { dataObj } from "../../assets/DataObj/text";
 import { customCss } from "../../assets/DataObj/css";
+import Button from "../ui/Button";
 
 const Foreground = () => {
   const ref = useRef(null);
+
   return (
     <div
       ref={ref}
@@ -15,12 +17,15 @@ const Foreground = () => {
       {dataObj &&
         dataObj.map((item, i) => (
           <Card
-            key={i}
+            key={item.id}
             className={customCss[0].card}
             data={item}
             refrence={ref}
           />
         ))}
+      <div className="bottom-0 flex items-end">
+        <Button text={"Add"} />
+      </div>
     </div>
   );
 };
