@@ -27,7 +27,7 @@ const Card = ({ className, data, refrence }) => {
       </div>
       <h2
         className="text-sm font-semibold mt-4"
-        contentEditable="true"
+        // contentEditable="true"
         onInput={handleTextchange}
         onBlur={handleSave}
       >
